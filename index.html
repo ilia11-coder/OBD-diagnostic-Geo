@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD დიაგნოსტიკის სერვისი</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="historySidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>📋 შეკვეთების ისტორია</h3>
+            <button id="closeSidebarBtn" class="btn-close">&times;</button>
+        </div>
+        <div id="historyList" class="sidebar-content">
+            <p class="empty-msg">შეკვეთები ჯერ არ არის.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="ka">GEO</button>
+            <button class="lang-btn" data-lang="en">ENG</button>
+            <button class="lang-btn" data-lang="ru">RUS</button>
+        </div>
+
+        <div class="header-action">
+            <button id="toggleHistoryBtn" class="btn-history-toggle">📋 ჩემი შეკვეთები (<span id="historyCount">0</span>)</button>
+        </div>
+
+        <h2>OBD დიაგნოსტიკა</h2>
+        <p class="subtitle">შეავსეთ მონაცემები სერვისის დასაჯავშნად</p>
+        
+        <form id="diagnosticForm">
+            <div class="form-group">
+                <label for="carYear">მანქანის გამოშვების წელი</label>
+                <select id="carYear" required>
+                    <option value="" disabled selected>აირჩიეთ წელი</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>მანქანის ტიპი (კორპუსი)</label>
+                <div class="custom-select" id="carTypeSelect">
+                    <div class="select-trigger"><span>აირჩიეთ ტიპი</span></div>
+                    <div class="select-options">
+                        <div class="option" data-value="sedan" data-price="30" data-name="სედანი"><span>სედანი</span> <span class="opt-price">+30 ₾</span></div>
+                        <div class="option" data-value="suv" data-price="45" data-name="ჯიპი / SUV"><span>ჯიპი / SUV</span> <span class="opt-price">+45 ₾</span></div>
+                        <div class="option" data-value="hatchback" data-price="25" data-name="ჰეჩბექი"><span>ჰეჩბექი</span> <span class="opt-price">+25 ₾</span></div>
+                        <div class="option" data-value="coupe" data-price="35" data-name="კუპე"><span>კუპე</span> <span class="opt-price">+35 ₾</span></div>
+                        <div class="option" data-value="universal" data-price="35" data-name="უნივერსალი"><span>უნივერსალი</span> <span class="opt-price">+35 ₾</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>საწვავის ტიპი</label>
+                <div class="custom-select" id="fuelTypeSelect">
+                    <div class="select-trigger"><span>აირჩიეთ საწვავის ტიპი</span></div>
+                    <div class="select-options">
+                        <div class="option" data-value="petrol" data-price="10" data-name="ბენზინი"><span>ბენზინი</span> <span class="opt-price">+10 ₾</span></div>
+                        <div class="option" data-value="diesel" data-price="15" data-name="დიზელი"><span>დიზელი</span> <span class="opt-price">+15 ₾</span></div>
+                        <div class="option" data-value="hybrid" data-price="20" data-name="ჰიბრიდი"><span>ჰიბრიდი</span> <span class="opt-price">+20 ₾</span></div>
+                        <div class="option" data-value="electric" data-price="25" data-name="ელექტრო"><span>ელექტრო</span> <span class="opt-price">+25 ₾</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+    <label>გადახდის მეთოდი</label>
+    <div class="radio-group">
+        <label class="radio-label">
+            <input type="radio" name="paymentMethod" value="card" id="payCard">
+            <span>💳 ბარათით (ონლაინ)</span>
+        </label>
+        
+        <div id="cardOptions" class="card-sub-options hidden">
+            <p class="sub-legend">აირჩიეთ გადახდის არხი:</p>
+            <div class="payment-channels-box">
+                <label class="channel-btn">
+                    <input type="radio" name="specificCard" value="საქართველოს ბანკი" checked>
+                    <span>🟠 BOG</span>
+                </label>
+                <label class="channel-btn">
+                    <input type="radio" name="specificCard" value="თიბისი ბანკი">
+                    <span>🔵 TBC</span>
+                </label>
+                <label class="channel-btn">
+                    <input type="radio" name="specificCard" value="VISA">
+                    <span>💳 VISA</span>
+                </label>
+                <label class="channel-btn">
+                    <input type="radio" name="specificCard" value="Mastercard">
+                    <span>🔴🟡 Master</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="cash-payment-wrapper" style="margin-top: 12px; display: block; width: 100%;">
+            <label class="radio-label">
+                <input type="radio" name="paymentMethod" value="cash">
+                <span>💵 ნაღდი ანგარიშსწორება</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+            <div class="price-display">
+                <span>სერვისის ღირებულება:</span>
+                <span class="total-amount"><span id="totalPrice">0</span> ₾</span>
+            </div>
+
+            <button type="submit" class="btn-submit">🧰 დიაგნოსტიკის დაჯავშნა</button>
+        </form>
+
+        <div id="successMessage" class="hidden">
+            <h3> შეკვეთა მიღებულია!</h3>
+            <p id="summaryText"></p>
+            <button id="goBackBtn" class="btn-back">⬅️ ახალი შეკვეთის დამატება</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
